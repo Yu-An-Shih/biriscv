@@ -81,8 +81,8 @@ module riscv_top
     ,input  [  1:0]  axi_d_rresp_i
     ,input  [  3:0]  axi_d_rid_i
     ,input           axi_d_rlast_i
-    ,input           intr_i
-    ,input  [ 31:0]  reset_vector_i
+    ,input           intr_i             // Active high interrupt input (for connection external int controller)
+    ,input  [ 31:0]  reset_vector_i     // Boot vector
 
     // Outputs
     ,output          axi_i_awvalid_o

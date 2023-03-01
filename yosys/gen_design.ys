@@ -1,0 +1,45 @@
+# read design
+read_verilog ../src/core/biriscv_alu.v
+read_verilog ../src/core/biriscv_csr_regfile.v
+read_verilog ../src/core/biriscv_csr.v
+read_verilog ../src/core/biriscv_decode.v
+read_verilog ../src/core/biriscv_decoder.v
+read_verilog ../src/core/biriscv_defs.v
+read_verilog ../src/core/biriscv_divider.v
+read_verilog ../src/core/biriscv_exec.v
+read_verilog ../src/core/biriscv_fetch.v
+read_verilog ../src/core/biriscv_frontend.v
+read_verilog ../src/core/biriscv_issue.v
+read_verilog ../src/core/biriscv_lsu.v
+read_verilog ../src/core/biriscv_mmu.v
+read_verilog ../src/core/biriscv_multiplier.v
+read_verilog ../src/core/biriscv_npc.v
+read_verilog ../src/core/biriscv_pipe_ctrl.v
+read_verilog ../src/core/biriscv_regfile.v
+read_verilog ../src/core/biriscv_trace_sim.v
+read_verilog ../src/core/biriscv_xilinx_2r1w.v
+
+read_verilog ../src/tmp/riscv_core-RV32I.v
+
+#write_verilog -nodec -noattr results/frontend.v
+
+
+# conservative RTL synthesis
+prep -top riscv_core -flatten
+
+#write_verilog -nodec -noattr results/synthesized.v
+
+
+# translate memories to basic cells
+memory -nordff
+
+#write_verilog -nodec -noattr results/mem_broken.v
+
+# simple optimizations - remove unused cells and wires
+opt_clean
+
+write_verilog -nodec -noattr results/design-small.v
+
+#sim -clock clk_i -reset rst_i -rstlen 5 -n 6 -vcd results/rst-small-6.vcd
+#sim -clock clk_i -reset rst_i -rstlen 5 -n 7 -vcd results/rst-small-7.vcd
+#sim -clock clk_i -reset rst_i -rstlen 5 -n 8 -vcd results/rst-small-8.vcd

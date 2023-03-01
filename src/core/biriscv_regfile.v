@@ -143,7 +143,8 @@ begin: REGFILE_XILINX
         reg_src_r[0] = 1'b0;
     end 
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         reg_src_q <= 32'b0;
     else

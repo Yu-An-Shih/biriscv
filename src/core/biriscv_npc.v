@@ -100,7 +100,8 @@ begin
         ras_index_real_r = ras_index_real_q - 1;
 end
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     ras_index_real_q <= {NUM_RAS_ENTRIES_W{1'b0}};
 else
@@ -135,7 +136,8 @@ begin
 end
 
 integer i3;
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     for (i3 = 0; i3 < NUM_RAS_ENTRIES; i3 = i3 + 1) 
@@ -168,7 +170,8 @@ end
 //-----------------------------------------------------------------
 reg [NUM_BHT_ENTRIES_W-1:0] global_history_real_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     global_history_real_q <= {NUM_BHT_ENTRIES_W{1'b0}};
 else if (branch_is_taken_i || branch_is_not_taken_i)
@@ -179,7 +182,8 @@ else if (branch_is_taken_i || branch_is_not_taken_i)
 //-----------------------------------------------------------------
 reg [NUM_BHT_ENTRIES_W-1:0] global_history_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     global_history_q <= {NUM_BHT_ENTRIES_W{1'b0}};
 // Mispredict - revert to actual branch history to flush out speculative errors
@@ -201,7 +205,8 @@ wire [NUM_BHT_ENTRIES_W-1:0] bht_wr_entry_w = GSHARE_ENABLE ? gshare_wr_entry_w 
 wire [NUM_BHT_ENTRIES_W-1:0] bht_rd_entry_w = GSHARE_ENABLE ? gshare_rd_entry_w : {pc_f_i[3+NUM_BHT_ENTRIES_W-2:3],btb_upper_w};
 
 integer i4;
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     for (i4 = 0; i4 < NUM_BHT_ENTRIES; i4 = i4 + 1)
@@ -309,7 +314,8 @@ begin
 end
 
 integer i2;
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     for (i2 = 0; i2 < NUM_BTB_ENTRIES; i2 = i2 + 1)
@@ -426,7 +432,8 @@ module biriscv_npc_lfsr
 //-----------------------------------------------------------------
 reg [15:0] lfsr_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     lfsr_q <= INITIAL_VALUE;
 else if (alloc_i)

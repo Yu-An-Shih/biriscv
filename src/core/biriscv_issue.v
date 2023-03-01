@@ -198,7 +198,8 @@ wire        dual_issue_w;
 reg  [31:0] pc_x_q;
 reg   [1:0] priv_x_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     pc_x_q <= 32'b0;
 else if (branch_csr_request_i)
@@ -212,7 +213,8 @@ else if (dual_issue_w)
 else if (single_issue_w)
     pc_x_q <= pc_x_q + 32'd4;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     priv_x_q <= `PRIV_MACHINE;
 else if (branch_csr_request_i)
@@ -602,7 +604,8 @@ reg csr_pending_q;
 
 // Division operations take 2 - 34 cycles and stall
 // the pipeline (complete out-of-pipe) until completed.
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     div_pending_q <= 1'b0;
 else if (pipe0_squash_e1_e2_w || pipe1_squash_e1_e2_w)
@@ -614,7 +617,8 @@ else if (writeback_div_valid_i)
 
 // CSR operations are infrequent - avoid any complications of pipelining them.
 // These only take a 2-3 cycles anyway and may result in a pipe flush (e.g. ecall, ebreak..).
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     csr_pending_q <= 1'b0;
 else if (pipe0_squash_e1_e2_w || pipe1_squash_e1_e2_w)

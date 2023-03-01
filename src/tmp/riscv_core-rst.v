@@ -39,10 +39,17 @@ module riscv_core
     ,parameter EXTRA_DECODE_STAGE = 0
     ,parameter MEM_CACHE_ADDR_MIN = 32'h80000000
     ,parameter MEM_CACHE_ADDR_MAX = 32'h8fffffff
-    ,parameter NUM_BTB_ENTRIES  = 32
+    
+    /*,parameter NUM_BTB_ENTRIES  = 32
     ,parameter NUM_BTB_ENTRIES_W = 5
     ,parameter NUM_BHT_ENTRIES  = 512
-    ,parameter NUM_BHT_ENTRIES_W = 9
+    ,parameter NUM_BHT_ENTRIES_W = 9*/
+
+    ,parameter NUM_BTB_ENTRIES  = 8
+    ,parameter NUM_BTB_ENTRIES_W = 3
+    ,parameter NUM_BHT_ENTRIES  = 8
+    ,parameter NUM_BHT_ENTRIES_W = 3
+    
     ,parameter RAS_ENABLE       = 1
     ,parameter GSHARE_ENABLE    = 0
     ,parameter BHT_ENABLE       = 1
@@ -61,13 +68,13 @@ module riscv_core
     ,input           mem_d_ack_i        // memory read/write acknowledge flag
     ,input           mem_d_error_i      // 0
     ,input  [ 10:0]  mem_d_resp_tag_i   // 0
-    ,input           mem_i_accept_i     // 1
+    /*,input           mem_i_accept_i     // 1
     ,input           mem_i_valid_i      // instruction valid flag
     ,input           mem_i_error_i      // 0
-    ,input  [ 63:0]  mem_i_inst_i       // instruction
-    ,input           intr_i             // set to 0            - Active high interrupt input (for connection external int controller)
+    ,input  [ 63:0]  mem_i_inst_i       // instruction*/
+    /*,input           intr_i             // set to 0            - Active high interrupt input (for connection external int controller)
     ,input  [ 31:0]  reset_vector_i     // set to 32'h80000000 - Boot vector
-    ,input  [ 31:0]  cpu_id_i           // set to 0            - CORE_ID - CPU instance ID (MHARTID)
+    ,input  [ 31:0]  cpu_id_i           // set to 0            - CORE_ID - CPU instance ID (MHARTID)*/
 
     // Outputs
     ,output [ 31:0]  mem_d_addr_o       // memory address
@@ -84,6 +91,33 @@ module riscv_core
     ,output          mem_i_invalidate_o // 0
     ,output [ 31:0]  mem_i_pc_o         // PC
 );
+
+// adjust inputs for the RV32I subset
+wire          intr_i;
+wire [ 31:0]  reset_vector_i;
+wire [ 31:0]  cpu_id_i;
+
+assign intr_i = 1'b0;
+assign reset_vector_i = 32'h80000000;
+assign cpu_id_i = 32'b0;
+
+// adjust for initializing
+/*wire  [ 31:0]  mem_d_data_rd_i;
+wire           mem_d_accept_i;
+wire           mem_d_ack_i;
+wire           mem_d_error_i;
+wire  [ 10:0]  mem_d_resp_tag_i;*/
+wire           mem_i_accept_i;
+wire           mem_i_valid_i;
+wire           mem_i_error_i;
+wire  [ 63:0]  mem_i_inst_i;
+
+assign mem_i_valid_i = 1'b1;
+assign mem_i_inst_i = 64'h00000013_00000013;
+
+assign mem_i_accept_i = 1'b1;
+assign mem_i_error_i = 1'b0;
+
 
 wire           mmu_lsu_writeback_w;
 wire  [  4:0]  csr_opcode_rd_idx_w;

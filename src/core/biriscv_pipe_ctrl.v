@@ -147,7 +147,8 @@ reg [31:0]              operand_ra_e1_q;
 reg [31:0]              operand_rb_e1_q;
 reg [`EXCEPTION_W-1:0]  exception_e1_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     valid_e1_q      <= 1'b0;
@@ -225,7 +226,8 @@ reg [31:0]              operand_ra_e2_q;
 reg [31:0]              operand_rb_e2_q;
 reg [`EXCEPTION_W-1:0]  exception_e2_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     valid_e2_q      <= 1'b0;
@@ -328,7 +330,8 @@ assign squash_e1_e2_w = |exception_e2_r;
 
 reg squash_e1_e2_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     squash_e1_e2_q <= 1'b0;
 else if (~issue_stall_i)
@@ -351,7 +354,8 @@ reg [31:0]              operand_ra_wb_q;
 reg [31:0]              operand_rb_wb_q;
 reg [`EXCEPTION_W-1:0]  exception_wb_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     valid_wb_q      <= 1'b0;

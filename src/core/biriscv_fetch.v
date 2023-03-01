@@ -94,7 +94,8 @@ begin
     assign branch_pc_w   = branch_pc_q;
     assign branch_priv_w = branch_priv_q;
     
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
     begin
         branch_q       <= 1'b0;
@@ -119,7 +120,8 @@ begin
     assign branch_pc_w   = (branch_q & !branch_request_i) ? branch_pc_q   : branch_pc_i;
     assign branch_priv_w = `PRIV_MACHINE; // don't care
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
     begin
         branch_q       <= 1'b0;
@@ -142,7 +144,8 @@ endgenerate
 //-------------------------------------------------------------
 // Active flag
 //-------------------------------------------------------------
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     active_q    <= 1'b0;
 else if (SUPPORT_MMU && branch_w && ~stall_w)
@@ -155,7 +158,8 @@ else if (!SUPPORT_MMU && branch_w)
 //-------------------------------------------------------------
 reg stall_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     stall_q    <= 1'b0;
 else
@@ -168,7 +172,8 @@ reg icache_fetch_q;
 reg icache_invalidate_q;
 
 // ICACHE fetch tracking
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     icache_fetch_q <= 1'b0;
 else if (icache_rd_o && icache_accept_i)
@@ -176,7 +181,8 @@ else if (icache_rd_o && icache_accept_i)
 else if (icache_valid_i)
     icache_fetch_q <= 1'b0;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     icache_invalidate_q <= 1'b0;
 else if (icache_invalidate_o && !icache_accept_i)
@@ -191,7 +197,8 @@ reg [31:0]  pc_f_q;
 reg [31:0]  pc_d_q;
 reg [1:0]   pred_d_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     pc_f_q  <= 32'b0;
 // Branch request
@@ -213,14 +220,16 @@ begin
     reg [1:0] priv_f_q;
     reg       branch_d_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         priv_f_q  <= `PRIV_MACHINE;
     // Branch request
     else if (branch_w && ~stall_w)
         priv_f_q  <= branch_priv_w;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         branch_d_q  <= 1'b0;
     // Branch request
@@ -243,13 +252,15 @@ end
 endgenerate
 
 // Last fetch address
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     pc_d_q <= 32'b0;
 else if (icache_rd_o && icache_accept_i)
     pc_d_q <= icache_pc_w;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     pred_d_q <= 2'b0;
 else if (icache_rd_o && icache_accept_i)
@@ -274,7 +285,8 @@ assign icache_busy_w       =  icache_fetch_q && !icache_valid_i;
 reg [99:0]  skid_buffer_q;
 reg         skid_valid_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     skid_buffer_q  <= 100'b0;

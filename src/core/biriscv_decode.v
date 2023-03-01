@@ -100,7 +100,8 @@ begin
 
     reg [100:0] fetch_buffer_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         fetch_buffer_q <= 101'b0;
     else if (branch_request_i)
@@ -346,7 +347,8 @@ wire pop_complete_w = ((pop1_w && ~valid1_o) || (pop2_w && ~valid0_o) || (pop1_w
 
 integer i;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     count_q   <= {(COUNT_W) {1'b0}};

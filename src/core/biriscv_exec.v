@@ -242,7 +242,8 @@ u_alu
 // Flop ALU output
 //-------------------------------------------------------------
 reg [31:0] result_q;
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     result_q  <= 32'b0;
 else if (~hold_i)
@@ -365,7 +366,8 @@ reg        branch_call_q;
 reg        branch_ret_q;
 reg        branch_jmp_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     branch_taken_q   <= 1'b0;

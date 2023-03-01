@@ -139,13 +139,15 @@ begin
     reg       load_q;
     reg [3:0] store_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         load_q <= 1'b0;
     else if (lsu_in_rd_i)
         load_q <= ~lsu_in_accept_o;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         store_q <= 4'b0;
     else if (|lsu_in_wr_i)
@@ -156,7 +158,8 @@ begin
 
     reg [31:0] lsu_in_addr_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         lsu_in_addr_q <= 32'b0;
     else if (load_w || (|store_w))
@@ -201,7 +204,8 @@ begin
     wire [31:0] pte_ppn_w   = {`PAGE_PFN_SHIFT'b0, resp_data_w[31:`PAGE_PFN_SHIFT]};
     wire [9:0]  pte_flags_w = resp_data_w[9:0];
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
     begin
         pte_addr_q  <= 32'b0;
@@ -272,7 +276,8 @@ begin
     reg [31:12] itlb_va_addr_q;
     reg [31:0]  itlb_entry_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         itlb_valid_q <= 1'b0;
     else if (flush_i)
@@ -282,7 +287,8 @@ begin
     else if (state_q != STATE_IDLE && !dtlb_req_q)
         itlb_valid_q <= 1'b0;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
     begin
         itlb_va_addr_q <= 20'b0;
@@ -322,7 +328,8 @@ begin
 
     reg pc_fault_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         pc_fault_q <= 1'b0;
     else
@@ -346,7 +353,8 @@ begin
     reg [31:12] dtlb_va_addr_q;
     reg [31:0]  dtlb_entry_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         dtlb_valid_q <= 1'b0;
     else if (flush_i)
@@ -354,7 +362,8 @@ begin
     else if (state_q == STATE_UPDATE && dtlb_req_q)
         dtlb_valid_q <= 1'b1;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
     begin
         dtlb_va_addr_q <= 20'b0;
@@ -418,13 +427,15 @@ begin
     reg store_fault_q;
     reg load_fault_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         store_fault_q <= 1'b0;
     else
         store_fault_q <= store_fault_r;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         load_fault_q <= 1'b0;
     else
@@ -469,7 +480,8 @@ begin
     reg mem_req_q;
     wire mmu_accept_w;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
         mem_req_q <= 1'b0;
     else if (state_q == STATE_IDLE && (itlb_miss_w || dtlb_miss_w))
@@ -486,7 +498,8 @@ begin
     reg  src_mmu_q;
     wire src_mmu_w = read_hold_q ? src_mmu_q : mem_req_q;
 
-    always @ (posedge clk_i or posedge rst_i)
+    //always @ (posedge clk_i or posedge rst_i)
+    always @ (posedge clk_i)
     if (rst_i)
     begin
         read_hold_q  <= 1'b0;

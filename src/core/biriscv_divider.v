@@ -90,7 +90,8 @@ reg        last_remu_q;
 wire div_start_w    = opcode_valid_i & div_rem_inst_w;
 wire div_complete_w = !(|q_mask_q) & div_busy_q;
 
-always @(posedge clk_i or posedge rst_i)
+//always @(posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     div_busy_q     <= 1'b0;
@@ -175,13 +176,15 @@ begin
         div_result_r = invert_res_q ? -dividend_q : dividend_q;
 end
 
-always @(posedge clk_i or posedge rst_i)
+//always @(posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     valid_q <= 1'b0;
 else
     valid_q <= div_complete_w;
 
-always @(posedge clk_i or posedge rst_i)
+//always @(posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     wb_result_q <= 32'b0;
 else if (div_complete_w)

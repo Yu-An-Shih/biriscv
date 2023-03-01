@@ -1,0 +1,37 @@
+# read design
+read_verilog ../src/core/biriscv_alu.v
+read_verilog ../src/core/biriscv_csr_regfile.v
+read_verilog ../src/core/biriscv_csr.v
+read_verilog ../src/core/biriscv_decode.v
+read_verilog ../src/core/biriscv_decoder.v
+read_verilog ../src/core/biriscv_defs.v
+read_verilog ../src/core/biriscv_divider.v
+read_verilog ../src/core/biriscv_exec.v
+read_verilog ../src/core/biriscv_fetch.v
+read_verilog ../src/core/biriscv_frontend.v
+read_verilog ../src/core/biriscv_issue.v
+read_verilog ../src/core/biriscv_lsu.v
+read_verilog ../src/core/biriscv_mmu.v
+read_verilog ../src/core/biriscv_multiplier.v
+read_verilog ../src/core/biriscv_npc.v
+read_verilog ../src/core/biriscv_pipe_ctrl.v
+read_verilog ../src/core/biriscv_regfile.v
+read_verilog ../src/core/biriscv_trace_sim.v
+read_verilog ../src/core/biriscv_xilinx_2r1w.v
+
+read_verilog ../src/tmp/riscv_core-rst.v
+
+
+# conservative RTL synthesis
+prep -top riscv_core -flatten
+
+
+# translate memories to basic cells
+memory -nordff
+
+# simple optimizations - remove unused cells and wires
+opt_clean
+
+
+# simulate the circuit
+sim -clock clk_i -reset rst_i -rstlen 5 -n 15 -vcd results/rst-small-15.vcd

@@ -200,7 +200,8 @@ reg [`EXCEPTION_W-1:0]  exception_e1_q;
 // Inappropriate xRET for the current exec priv level
 wire                    eret_fault_w = eret_w && (current_priv_w < eret_priv_w);
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     rd_valid_e1_q   <= 1'b0;
@@ -263,7 +264,8 @@ assign csr_result_e1_exception_o = exception_e1_q;
 //-----------------------------------------------------------------
 reg take_interrupt_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     take_interrupt_q    <= 1'b0;
 else
@@ -276,7 +278,8 @@ assign take_interrupt_o = take_interrupt_q;
 //-----------------------------------------------------------------
 reg tlb_flush_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     tlb_flush_q <= 1'b0;
 else
@@ -287,7 +290,8 @@ else
 //-----------------------------------------------------------------
 reg ifence_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     ifence_q    <= 1'b0;
 else
@@ -302,7 +306,8 @@ reg        branch_q;
 reg [31:0] branch_target_q;
 reg        reset_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     branch_target_q <= 32'b0;
@@ -317,8 +322,8 @@ begin
 end
 else
 begin
-    branch_q        <= csr_branch_w;
-    branch_target_q <= csr_target_w;
+    branch_q        <= csr_branch_w;    // NOTE: 1'b0 if no exception
+    branch_target_q <= csr_target_w;    // NOTE: 32'b0 if no exception
 end
 
 assign branch_csr_request_o = branch_q;

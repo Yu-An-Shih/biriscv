@@ -98,7 +98,8 @@ end
 
 
 // Pipeline flops for multiplier
-always @(posedge clk_i or posedge rst_i)
+//always @(posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     operand_a_e1_q <= 33'b0;
@@ -127,13 +128,15 @@ begin
     result_r = mulhi_sel_e1_q ? mult_result_w[63:32] : mult_result_w[31:0];
 end
 
-always @(posedge clk_i or posedge rst_i)
+//always @(posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     result_e2_q <= 32'b0;
 else if (~hold_i)
     result_e2_q <= result_r;
 
-always @(posedge clk_i or posedge rst_i)
+//always @(posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     result_e3_q <= 32'b0;
 else if (~hold_i)

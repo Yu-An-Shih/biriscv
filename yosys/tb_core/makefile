@@ -18,7 +18,7 @@ endif
 ###############################################################################
 TRACE          ?= 1
 
-SRC_V_DIR      ?= ../../src/core .
+SRC_V_DIR      ?= .
 SRC_DIR        ?= .
 
 EXE            ?= output.out
@@ -56,7 +56,7 @@ run: $(BUILD_DIR)/$(EXE) $(BUILD_DIR)/tcm.bin
 	vvp $(BUILD_DIR)/$(EXE) -vcd
 
 view:
-	gtkwave waveform.vcd gtksettings.sav  
+	gtkwave waveform.vcd
 
 clean:
 	rm -rf $(BUILD_DIR) *.vcd

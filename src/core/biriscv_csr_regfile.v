@@ -134,7 +134,8 @@ begin
 end
 
 reg [1:0] irq_priv_q;
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     irq_priv_q <= `PRIV_MACHINE;
 else if (|irq_masked_r)
@@ -145,7 +146,8 @@ assign interrupt_o = irq_masked_r;
 
 reg csr_mip_upd_q;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     csr_mip_upd_q <= 1'b0;
 else if ((csr_ren_i && csr_raddr_i == `CSR_MIP) || (csr_ren_i && csr_raddr_i == `CSR_SIP))
@@ -478,7 +480,8 @@ end
 `define HAS_SIM_CTRL
 `endif
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     // CSR - Machine

@@ -106,7 +106,8 @@ wire issue_lsu_e1_w    = (mem_rd_o || (|mem_wr_o) || mem_writeback_o || mem_inva
 wire complete_ok_e2_w  = mem_ack_i & ~mem_error_i;
 wire complete_err_e2_w = mem_ack_i & mem_error_i;
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     pending_lsu_e2_q <= 1'b0;
 else if (issue_lsu_e1_w)
@@ -120,7 +121,8 @@ wire delay_lsu_e2_w = pending_lsu_e2_q && !complete_ok_e2_w;
 //-----------------------------------------------------------------
 // Dummy Ack (unaligned access /E2)
 //-----------------------------------------------------------------
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
     mem_unaligned_e2_q <= 1'b0;
 else
@@ -242,7 +244,8 @@ wire dcache_invalidate_w = ((opcode_opcode_i & `INST_CSRRW_MASK) == `INST_CSRRW)
 // Sequential
 //-----------------------------------------------------------------
 
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     mem_addr_q         <= 32'b0;
@@ -463,7 +466,8 @@ integer i;
 //-----------------------------------------------------------------
 // Sequential
 //-----------------------------------------------------------------
-always @ (posedge clk_i or posedge rst_i)
+//always @ (posedge clk_i or posedge rst_i)
+always @ (posedge clk_i)
 if (rst_i)
 begin
     count_q   <= {(COUNT_W) {1'b0}};
